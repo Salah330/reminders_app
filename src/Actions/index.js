@@ -5,6 +5,5 @@ export const Add_Reminder = (text, date) => {
     text,
     date,
   };
-
   return action;
 };

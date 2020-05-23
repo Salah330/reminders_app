@@ -6,8 +6,9 @@ const reminder = (state = [], action) => {
       ...state,
       { text: action.text, date: action.date, id: Math.random() },
     ];
-
     return reminders;
+  } else {
+    return state;
   }
 };
 export default reminder;
