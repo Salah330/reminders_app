@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from "./calender-2389150_1280.png";
-import { Add_Reminder } from "../Actions";
+import { Add_Reminder, Remove_Reminder, Clear_Reminders } from "../Actions";
 import { connect } from "react-redux";
 class App extends Component {
   state = {
@@ -16,6 +16,12 @@ class App extends Component {
             <li key={reminder.id} className="list-group-item">
               <div>{reminder.text}</div>
               <div>{reminder.date}</div>
+              <div
+                className="btn btn-warning form-control"
+                onClick={() => this.props.Remove_Reminder(reminder.id)}
+              >
+                X
+              </div>
             </li>
           );
         })}
@@ -35,26 +41,34 @@ class App extends Component {
           style={{ width: "180px" }}
         />
         <input
+          value={this.state.text}
           placeholder="Enter your task ..."
           type="text"
           className="form-control my-3"
           onChange={(e) => this.setState({ text: e.target.value })}
         />
         <input
+          value={this.state.date}
           type="datetime-local"
           className="form-control"
           onChange={(e) => this.setState({ text: e.target.value })}
         />
         <button
           className="btn btn-primary btn-block my-3"
-          onClick={() =>
-            this.props.Add_Reminder(this.state.text, this.state.date)
-          }
+          onClick={() => {
+            this.props.Add_Reminder(this.state.text, this.state.date);
+            this.setState({ text: "", date: "" });
+          }}
         >
           Add Reminder
         </button>
         {this.ret_reminders()}
-        <button className="btn btn-danger btn-block">Clear Reminders</button>
+        <button
+          className="btn btn-danger btn-block"
+          onClick={() => this.props.Clear_Reminders()}
+        >
+          Clear Reminders
+        </button>
       </div>
     );
   }
@@ -72,5 +86,5 @@ export default connect(
       reminders: state,
     };
   },
-  { Add_Reminder }
+  { Add_Reminder, Remove_Reminder, Clear_Reminders }
 )(App);
