@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import logo from "./calender-2389150_1280.png";
 import { Add_Reminder, Remove_Reminder, Clear_Reminders } from "../Actions";
 import { connect } from "react-redux";
+import moment from "moment";
 class App extends Component {
   state = {
     text: "",
-    date: new Date().toString(),
+    date: new Date(),
   };
   ret_reminders = () => {
     const { reminders } = this.props;
@@ -13,9 +14,9 @@ class App extends Component {
       <ul className="list-group">
         {reminders.map((reminder) => {
           return (
-            <li key={reminder.id} className="list-group-item">
+            <li key={reminder.id} className="list-group-item mb-3">
               <div>{reminder.text}</div>
-              <div>{reminder.date}</div>
+              <div>{moment(new Date(reminder.date)).fromNow()}</div>
               <div
                 className="btn btn-warning form-control"
                 onClick={() => this.props.Remove_Reminder(reminder.id)}
@@ -31,18 +32,20 @@ class App extends Component {
   render() {
     return (
       <div className="app container bg-dark px-5 pb-5 pt-3 mt-3  justify-content-center">
-        <div className="reminder-title text-center text-light text-uppercase">
-          <h1>what should i do ?</h1>
-        </div>
         <img
           src={logo}
           alt="logo"
           className="rounded mx-auto d-block img-thumbnail border-50"
           style={{ width: "180px" }}
         />
+        <div className="reminder-title text-center text-light text-uppercase">
+          <h1>
+            <u>what should i do ?</u>
+          </h1>
+        </div>
         <input
           value={this.state.text}
-          placeholder="Enter your task ..."
+          placeholder="Add your task ..."
           type="text"
           className="form-control my-3"
           onChange={(e) => this.setState({ text: e.target.value })}
@@ -51,7 +54,7 @@ class App extends Component {
           value={this.state.date}
           type="datetime-local"
           className="form-control"
-          onChange={(e) => this.setState({ text: e.target.value })}
+          onChange={(e) => this.setState({ date: e.target.value })}
         />
         <button
           className="btn btn-primary btn-block my-3"
